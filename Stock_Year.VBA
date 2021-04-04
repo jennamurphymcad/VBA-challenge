@@ -4,58 +4,50 @@ Sub Wkst_Loop_test()
 Dim ticker_symbol As String
 
 'set as initial variable for holding Yearly Change
-Dim year_change as Double
+Dim year_change As Double
 year_change = 0
 
 'set as initial variable for holding Percent Change
-Dim percent_change as Double
+Dim percent_change As Double
 percent_change = 0
 
 'set as initial variable for holding Total Stock Volume
-Dim stock_vol as LongLong
+Dim stock_vol As LongLong
 stock_vol = 0
 
 ' Keep track of the location for each credit card brand in the summary table
-Dim Summary_Table_Row As Integer
+Dim Summary_Table_Row As Double
 Summary_Table_Row = 2
 
+WS_Count = ActiveWorkbook.Worksheets.Count
 
-'testing just first tab summary
-For i = 2 To 70926
-    If Cells(i + 1, 1).Value <> Cells(i, 1).Value Then
+lastRowState = ActiveSheet.Cells(Rows.Count, "A").End(xlUp).Row - 1
 
-        ticker_symbol = Cells(i, 1).Value
+For Each ws In Worksheets
 
-        Range("I" & Summary_Table_row).Value = ticker_symbol
-
-        Summary_Table_Row = Summary_Table_Row + 1
-
-    End If
-Next I
-End Sub
-
-
-
-
-
-
-
-
-Dim WS_Count As Integer
-Dim I As Integer
-
-       ' Set WS_Count equal to the number of worksheets in the active
-       ' workbook.
-       WS_Count = ActiveWorkbook.Worksheets.Count
-
-       ' Begin the loop.
-       For I = 1 To WS_Count
-
-          ' Insert your code here.
-          ' The following line shows how to reference a sheet within
-          ' the loop by displaying the worksheet name in a dialog box.
-          MsgBox ActiveWorkbook.Worksheets(I).Name
-
-       Next I
-
-End Sub
+    For I = 2 To lastRowState
+    
+        If ws.Cells(I + 1, 1).Value <> ws.Cells(I, 1).Value Then
+                            
+                'set ticker symbol
+                ticker_symbol = ws.Cells(I, 1).Value
+                
+                'Add to the Stock Vol Total
+                stock_vol = stock_vol + ws.Cells(I, 7).Value
+                
+                Range("I" & Summary_Table_Row).Value = ticker_symbol
+                Range("L" & Summary_Table_Row).Value = stock_vol
+                
+                Summary_Table_Row = Summary_Table_Row + 1
+                
+        Else
+        'add to the stock_vol
+        stock_vol = stock_vol + ws.Cells(I, 7).Value
+                
+            End If
+            
+        Next I
+    
+    Next ws
+    
+End Sub 

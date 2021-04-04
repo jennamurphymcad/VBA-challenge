@@ -24,6 +24,8 @@ WS_Count = ActiveWorkbook.Worksheets.Count
 lastRowState = ActiveSheet.Cells(Rows.Count, "A").End(xlUp).Row - 1
 
 For Each ws In Worksheets
+    
+    
 
     For I = 2 To lastRowState
     
@@ -40,9 +42,9 @@ For Each ws In Worksheets
                 
                 Summary_Table_Row = Summary_Table_Row + 1
                 
-        Else
-        'add to the stock_vol
-        stock_vol = stock_vol + ws.Cells(I, 7).Value
+            Else
+                'add to the stock_vol
+                stock_vol = stock_vol + ws.Cells(I, 7).Value
                 
             End If
             
@@ -50,4 +52,10 @@ For Each ws In Worksheets
     
     Next ws
     
-End Sub 
+    Range("I1") = "Ticker"
+    Range("J1") = "Yearly Change"
+    Range("K1") = "Percentage Change"
+    Range("L1") = "Stock Volume"
+    
+    
+End Sub
